@@ -1,5 +1,5 @@
 <script setup>
-import AdminLayout from '@/Layouts/AdminLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 import Pagination from '@/Components/Pagination.vue'
 import ModalDelete from '@/Components/ModalDelete.vue'
@@ -31,7 +31,7 @@ const adminSelected = ref(null);
 <template>
     <Head title="Admins List" />
 
-    <AdminLayout>
+    <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Admins List</h2>
         </template>
@@ -79,5 +79,5 @@ const adminSelected = ref(null);
         </div>
         <ModalDelete v-if="isOpen" @success="success()" @close="isOpen = false" :id="adminSelected"
             :url="'admin.admins.destroy'" />
-    </AdminLayout>
+    </AuthenticatedLayout>
 </template>

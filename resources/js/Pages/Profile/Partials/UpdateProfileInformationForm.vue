@@ -58,6 +58,7 @@ const form = useForm({
                     class="mt-1 block w-full"
                     v-model="form.email"
                     required
+                    :disabled="$page.props.auth.user.role != 'admin'"
                     autocomplete="username"
                 />
 
