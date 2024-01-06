@@ -49,7 +49,13 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return bool
      */
-    public function isAdmin() : bool {
+    public function isAdmin() : bool
+    {
         return $this->role == 'admin';
+    }
+
+    public function scopeAdmins($q)
+    {
+        $q->where('role', 'admin');
     }
 }

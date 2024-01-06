@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -39,6 +40,9 @@ Route::middleware('admin')->name('admin.')->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Admin/Dashboard');
     })->name('dashboard');
+
+    Route::resource('admins', AdminController::class);
+
 });
 //Auth and Profile Routes
 Route::middleware('auth')->group(function () {
