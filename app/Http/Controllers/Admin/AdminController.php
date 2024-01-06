@@ -18,6 +18,7 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         $user = User::query();
+        $user->admins();
         if($request->name)
             $user->where('name', 'LIKE', "%$request->name%");
 
