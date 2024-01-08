@@ -11,22 +11,22 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $admins = User::query();
-        $admins->admins();
+        $users = User::query();
+        $users->users();
         if ($request->name)
-            $admins->where('name', 'LIKE', "%$request->name%");
+            $users->where('name', 'LIKE', "%$request->name%");
 
-        return Inertia::render('Admin/Admins/List', [
+        return Inertia::render('Admin/Users/List', [
             'query' => $request->all(),
-            'admins' => UserResource::collection(
-                $admins->latest()->paginate()->withQueryString()
+            'users' => UserResource::collection(
+                $users->latest()->paginate()->withQueryString()
             ),
         ]);
     }
@@ -36,10 +36,10 @@ class AdminController extends Controller
      */
     public function create()
     {
-        $admin = new User();
+        $user = new User();
 
-        return Inertia::render('Admin/Admins/Form', [
-            'admin' => $admin
+        return Inertia::render('Admin/Users/Form', [
+            'user' => $user
         ]);
     }
 
@@ -51,10 +51,10 @@ class AdminController extends Controller
         $data = $request->all();
 
         $data['password'] = bcrypt($data['password']);
-        $data['role'] = 'admin';
-        $admin = User::create($data);
+        $data['role'] = 'user';
+        $user = User::create($data);
 
-        return Redirect::route('admin.admins.edit', $admin->id);
+        return Redirect::route('admin.users.edit', $user->id);
     }
 
     /**
@@ -70,13 +70,13 @@ class AdminController extends Controller
      */
     public function edit(string $id)
     {
-        $admin = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        if (!$admin->isAdmin())
+        if (!$user->isUser())
             abort(404);
 
-        return Inertia::render('Admin/Admins/Form', [
-            'admin' => $admin
+        return Inertia::render('Admin/Users/Form', [
+            'user' => $user
         ]);
     }
 
@@ -85,9 +85,9 @@ class AdminController extends Controller
      */
     public function update(UserRequest $request, string $id)
     {
-        $admin = User::findOrFail($id);
+        $user = User::findOrFail($id);
 
-        if (!$admin->isAdmin())
+        if (!$user->isUser())
             abort(404);
 
         $data = $request->all();
@@ -96,15 +96,15 @@ class AdminController extends Controller
         else
             $data['password'] = bcrypt($data['password']);
 
-        $admin->fill($data);
+        $user->fill($data);
 
-        if ($admin->isDirty('email')) {
-            $admin->email_verified_at = null;
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $admin->save();
+        $user->save();
 
-        return Redirect::route('admin.admins.edit', $admin->id);
+        return Redirect::route('admin.users.edit', $user->id);
     }
 
     /**

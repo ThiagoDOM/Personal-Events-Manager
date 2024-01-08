@@ -4,7 +4,7 @@ import { Head } from '@inertiajs/vue3';
 import Table from '@/Components/Table.vue';
 
 defineProps({
-    admins: {
+    users: {
         type: Object,
     },
     query: {
@@ -30,18 +30,18 @@ const columns = [
 </script>
 
 <template>
-    <Head title="Admins List" />
+    <Head title="Users List" />
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Admins List</h2>
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">Users List</h2>
         </template>
 
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
-                        <Table :items="admins" :columns="columns" :query="query" :routeBase="'admin.admins'" />
+                        <Table :items="users" :columns="columns" :query="query" :routeBase="'admin.users'" />
                     </div>
                 </div>
             </div>
